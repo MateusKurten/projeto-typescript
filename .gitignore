@@ -1,2 +1,2 @@
 .env
-/docker/mysql/volumes
+/docker/mysql/volumes/*
