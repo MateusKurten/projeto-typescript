@@ -1,7 +1,7 @@
 import AdminJS from 'adminjs'
 import AdminJSExpress from '@adminjs/express'
 import * as AdminJSSequelize from '@adminjs/sequelize'
-import { User } from './models';
+import { User, Game, Store, Platform, Genre } from './models';
 import express from 'express';
 import session from 'express-session';
 import { generateResource } from './utils/modeling-model';
@@ -45,9 +45,13 @@ const start = async () => {
           }
         },
       }),
+      generateResource(Game),
+      generateResource(Store),
+      generateResource(Platform),
+      generateResource(Genre)
     ],
     branding: {
-      companyName: "Minha biblioteca de jogos"
+      companyName: "My gaming library"
     }
   })
 
