@@ -4,10 +4,10 @@ const generateResource = (model: object, properties:object|null=null, actions:ob
         options: {
           properties: {
             createdAt: {
-              isVisible: { add:false, edit: false, list: true, show: true, filter: true }
+              isVisible: { add:false, edit: false, list: true, show: true, filter: false }
             },
             updatedAt: {
-              isVisible: { add:false, edit: false, list: true, show: true, filter: true }
+              isVisible: { add:false, edit: false, list: true, show: true, filter: false }
             },
             ...properties
           },

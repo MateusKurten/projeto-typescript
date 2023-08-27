@@ -32,7 +32,7 @@ const start = async () => {
           isVisible: {
             add: true, list: false, edit: true, filter: false, show: false
           }
-        }
+        },
       }, {
         new: {
           before: async (request: any) => {
@@ -45,7 +45,36 @@ const start = async () => {
           }
         },
       }),
-      generateResource(Game),
+      generateResource(Game, {
+        userId: {
+          isVisible: { add:false, edit: false, list: true, show: true, filter: false }
+        },
+      }, {
+        new: {
+          before: async (request:any , context: any) => {
+            const { currentAdmin } = context;
+            return {
+              ...request,
+              payload: {
+                ...request.payload,
+                'userId': currentAdmin.id
+              }
+            }
+          }
+        },
+        list: {
+          before: async (request:any , context: any) => {
+            const { currentAdmin } = context;
+            return {
+              ...request,
+              query: {
+                 ...request.query,
+                 'filters.userId': currentAdmin.id
+              }
+            }
+          },
+        }
+      }),
       generateResource(Store),
       generateResource(Platform),
       generateResource(Genre)
