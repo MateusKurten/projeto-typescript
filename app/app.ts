@@ -106,6 +106,4 @@ const start = async () => {
   })
 }
 
-console.log("oi", process.env.MYSQLDB_DATABASE)
-
 start()
