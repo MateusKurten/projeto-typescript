@@ -1,23 +1,25 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import { sequelize } from "../db";
 
-interface IPlatform{
+interface IDonor{
     id: number;
     name: string;
+    country: number;
     createdAt?: Date;
     updatedAt?: Date;
 }
 
-export type PlatformCreationAttributes = Optional<IPlatform, 'id'>;
+export type DonorCreationAttributes = Optional<IDonor, 'id'>;
 
-export class Platform extends Model<IPlatform, PlatformCreationAttributes> {
-    declare id: number | null;
-    declare name: string | null;
-    public createdAt?: Date;
-    public updatedAt?: Date;
+export class Donor extends Model<IDonor, DonorCreationAttributes> {
+    declare id: number;
+    declare name: string;
+    declare country: number;
+    declare createdAt?: Date;
+    declare updatedAt?: Date;
 }
 
-Platform.init(
+Donor.init(
     {
         id: {
             type: DataTypes.INTEGER,
@@ -27,6 +29,14 @@ Platform.init(
         name: {
             type: new DataTypes.STRING(128),
             allowNull: false
+        },
+        country: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            references: {
+                model: 'countries',
+                key: 'id'
+            }
         },
         createdAt: {
             type: DataTypes.DATE,
@@ -41,7 +51,7 @@ Platform.init(
     },
     {
         sequelize,
-        tableName: 'platforms',
-        modelName: 'platform',
+        tableName: 'donors',
+        modelName: 'donor',
     }
 )

@@ -1,7 +1,7 @@
 import AdminJS from 'adminjs'
 import AdminJSExpress from '@adminjs/express'
 import * as AdminJSSequelize from '@adminjs/sequelize'
-import { User, Game, Store, Platform, Genre } from './models';
+import { User, Country, Donor, Donation} from './models';
 import express from 'express';
 import session from 'express-session';
 import { generateResource } from './utils/modeling-model';
@@ -45,42 +45,12 @@ const start = async () => {
           }
         },
       }),
-      generateResource(Game, {
-        userId: {
-          isVisible: { add:false, edit: false, list: true, show: true, filter: false }
-        },
-      }, {
-        new: {
-          before: async (request:any , context: any) => {
-            const { currentAdmin } = context;
-            return {
-              ...request,
-              payload: {
-                ...request.payload,
-                'userId': currentAdmin.id
-              }
-            }
-          }
-        },
-        list: {
-          before: async (request:any , context: any) => {
-            const { currentAdmin } = context;
-            return {
-              ...request,
-              query: {
-                 ...request.query,
-                 'filters.userId': currentAdmin.id
-              }
-            }
-          },
-        }
-      }),
-      generateResource(Store),
-      generateResource(Platform),
-      generateResource(Genre)
+      generateResource(Country),
+      generateResource(Donor),
+      generateResource(Donation)
     ],
     branding: {
-      companyName: "My gaming library"
+      companyName: "My Project Donations"
     },
     dashboard: {
       component: AdminJS.bundle('./components/dashboard.jsx')

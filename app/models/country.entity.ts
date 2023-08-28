@@ -1,23 +1,23 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import { sequelize } from "../db";
 
-interface IGenre{
+interface ICountry{
     id: number;
     name: string;
     createdAt?: Date;
     updatedAt?: Date;
 }
 
-export type GenreCreationAttributes = Optional<IGenre, 'id'>;
+export type CountryCreationAttributes = Optional<ICountry, 'id'>;
 
-export class Genre extends Model<IGenre, GenreCreationAttributes> {
+export class Country extends Model<ICountry, CountryCreationAttributes> {
     declare id: number | null;
     declare name: string | null;
-    public createdAt?: Date;
-    public updatedAt?: Date;
+    declare createdAt?: Date;
+    declare updatedAt?: Date;
 }
 
-Genre.init(
+Country.init(
     {
         id: {
             type: DataTypes.INTEGER,
@@ -41,7 +41,7 @@ Genre.init(
     },
     {
         sequelize,
-        tableName: 'genres',
-        modelName: 'genre',
+        tableName: 'countries',
+        modelName: 'country',
     }
 )

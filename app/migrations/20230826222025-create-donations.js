@@ -3,15 +3,23 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await queryInterface.createTable('stores', {
+    await queryInterface.createTable('donations', {
       id: {
-          type: Sequelize.INTEGER,
-          autoIncrement: true,
-          primaryKey: true
+        type: Sequelize.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
       },
-      name: {
-          type: new Sequelize.STRING(128),
-          allowNull: false
+      donor: {
+          type: Sequelize.INTEGER,
+          allowNull: true,
+          references: {
+              model: 'donors',
+              key: 'id'
+          }
+      },
+      value: {
+          type: Sequelize.DECIMAL(10, 2),
+          allowNull: true,
       },
       createdAt: {
           type: new Sequelize.DATE,
@@ -27,6 +35,6 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.dropTable('stores');
+    await queryInterface.dropTable('donations');
   }
 };
