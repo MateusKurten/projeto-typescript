@@ -81,7 +81,10 @@ const start = async () => {
     ],
     branding: {
       companyName: "My gaming library"
-    }
+    },
+    dashboard: {
+      component: AdminJS.bundle('./components/dashboard.jsx')
+    },
   })
 
   const sessionStore = new mysqlStore({
