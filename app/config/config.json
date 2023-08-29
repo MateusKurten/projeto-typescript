@@ -2,7 +2,7 @@
   "development": {
     "username": "root",
     "password": "123456",
-    "database": "biblioteca_de_jogos",
+    "database": "donations_db",
     "host": "mysqldb",
     "dialect": "mysql"
   },
