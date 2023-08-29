@@ -5,6 +5,7 @@ interface IDonation{
     id: number;
     donor: number;
     value: number;
+    date: Date;
     createdAt?: Date;
     updatedAt?: Date;
 }
@@ -15,6 +16,7 @@ export class Donation extends Model<IDonation, DonationCreationAttributes> imple
     declare id: number;
     declare donor: number;
     declare value: number;
+    declare date: Date;
     declare createdAt?: Date;
     declare updatedAt?: Date;
 }
@@ -37,6 +39,10 @@ Donation.init(
         value: {
             type: DataTypes.DECIMAL(10, 2),
             allowNull: true,
+        },
+        date: {
+            type: DataTypes.DATE,
+            allowNull: false,
         },
         createdAt: {
             type: DataTypes.DATE,

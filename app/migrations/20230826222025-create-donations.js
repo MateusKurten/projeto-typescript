@@ -21,6 +21,10 @@ module.exports = {
           type: Sequelize.DECIMAL(10, 2),
           allowNull: true,
       },
+      date: {
+          type: Sequelize.DATE,
+          allowNull: false,
+      },
       createdAt: {
           type: new Sequelize.DATE,
           allowNull: false,
