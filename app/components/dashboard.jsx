@@ -1,6 +1,9 @@
 import React from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, Title, LinearScale, CategoryScale, BarElement } from 'chart.js';
 import { Pie, Bar } from 'react-chartjs-2';
+import useSWR from 'swr';
+
+const fetcher = (...args) => fetch(...args).then(res => res.json())
 
 ChartJS.register(ArcElement, Tooltip, Legend, Title, LinearScale, CategoryScale, BarElement);
 
@@ -56,5 +59,6 @@ const Dashboard = () => {
     </div>
   </div>;
 }
+
 
 export default Dashboard;
