@@ -1,8 +1,8 @@
 import React from 'react';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend, Title } from 'chart.js';
-import { Pie } from 'react-chartjs-2';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend, Title, LinearScale, CategoryScale, BarElement } from 'chart.js';
+import { Pie, Bar } from 'react-chartjs-2';
 
-ChartJS.register(ArcElement, Tooltip, Legend, Title);
+ChartJS.register(ArcElement, Tooltip, Legend, Title, LinearScale, CategoryScale, BarElement);
 
 export const data = {
   labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
@@ -31,42 +31,28 @@ export const data = {
   ],
 };
 
-const options = {
-    options: {
-        responsive: true,
-        plugins: {
-           title: {
-              display: true,
-              text: 'Bar Chart'
-            }
-        }
+const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+
+export const barData = {
+  labels,
+  datasets: [
+    {
+      label: 'Donations ($)',
+      data: [20000, 10000, 5000, 15000, 50000, 25000, 2000],
+      backgroundColor: 'green'
     }
+  ]
 }
 
 const Dashboard = () => {
-    return <div>
-    <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-      <div style={{ width: '300px' }}>
-        <Pie data={data} options={{
-  plugins: {
-    title: {
-      display: true,
-      text: "Indice d'impact global de la transaction",
-      align: "center",
-      padding: {
-        top: 10,
-        bottom: 30,
-      },
-    },
-  },
-}} />
-      </div>
-      <div style={{ width: '300px' }} options={{ options }}>
-        <Pie data={data} />
-      </div>
-      <div style={{ width: '300px' }} options={{ options }}>
-        <Pie data={data} />
-      </div>
+  return <div style={{display: 'flex', justifyContent: 'space-evenly', flexWrap: 'wrap'}}>
+    <div style={{ minWidth: '50%', display: 'inline-block', margin: '20px' }} options={{ responsive: true }}>
+      <h1 style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 24, margin: '20px auto'}}>Donations by time</h1>
+      <Bar data={barData} />
+    </div>
+    <div style={{ maxWidth: '300px', margin: '20px' }} options={{ responsive: true }}>
+      <h1 style={{ textAlign: 'center', fontWeight: 'bold', fontSize: 24, margin: '20px auto'}}>Donations by country</h1>
+      <Pie data={data}/>
     </div>
   </div>;
 }
