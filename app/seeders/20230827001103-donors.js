@@ -10,11 +10,11 @@ module.exports = {
       },
       {
         name: 'Bruno',
-        country: 1,
+        country: 7,
       },
       {
         name: 'Carlos',
-        country: 1,
+        country: 8,
       },
       {
         name: 'Chris',
@@ -27,6 +27,14 @@ module.exports = {
       {
         name: 'Einstein',
         country: 2,
+      },
+      {
+        name: 'Victor',
+        country: 6,
+      },
+      {
+        name: 'Isabella',
+        country: 5,
       },
     ]);
   },

@@ -4,10 +4,10 @@ import DonationController from "../controllers/DonationController";
 
 const dashboard = express.Router();
 
-const taskCtrl = new DonationController();
+const donationCtrl = new DonationController();
 
 dashboard.get('/teste', async (req, res) => {
-    const result: object = await taskCtrl.getDataByCountry();
+    const result: object = await donationCtrl.getDataByCountry();
     res.json(result);
 });
 

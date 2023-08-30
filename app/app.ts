@@ -8,13 +8,14 @@ import { generateResource } from './utils/modeling-model';
 import { encryptPassword } from './utils/user-utils';
 import bcrypt from "bcrypt";
 import { sequelize } from './db';
+import dashboard from './routes/dashboard';
 
 AdminJS.registerAdapter({
   Resource: AdminJSSequelize.Resource,
   Database: AdminJSSequelize.Database,
 });
 
-const PORT = 8080;
+const PORT = process.env.NODE_DOCKER_PORT;
 
 const mysqlStore = require('express-mysql-session')(session);
 
@@ -101,7 +102,8 @@ const start = async () => {
     }
   );
 
-  app.use(admin.options.rootPath, adminRouter)
+  app.use(admin.options.rootPath, adminRouter);
+  app.use('/dashboard', dashboard);
 
   app.listen(PORT, () => {
     console.log(`AdminJS started on http://localhost:${PORT}${admin.options.rootPath}`)
