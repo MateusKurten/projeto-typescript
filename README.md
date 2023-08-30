@@ -3,6 +3,8 @@
 
 AdminJS project for managing donations.
 
+[GitHub Repository](https://github.com/MateusKurten/projeto-typescript)
+
 ## Requirements
 
 - Docker
