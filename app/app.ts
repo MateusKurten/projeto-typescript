@@ -1,7 +1,8 @@
 import AdminJS from 'adminjs'
 import AdminJSExpress from '@adminjs/express'
 import * as AdminJSSequelize from '@adminjs/sequelize'
-import { User, Country, Donor, Donation} from './models';
+import * as AdminJSMongoose from '@adminjs/mongoose'
+import { User, Country, Donor, Donation, Chat} from './models';
 import express from 'express';
 import session from 'express-session';
 import { generateResource } from './utils/modeling-model';
@@ -9,10 +10,24 @@ import { encryptPassword } from './utils/user-utils';
 import bcrypt from "bcrypt";
 import { sequelize } from './db';
 import dashboard from './routes/dashboard';
+import chat from './routes/chat';
+import donor from './routes/donor';
+import auth from './routes/auth';
+import users from './routes/users';
+import hbs from 'hbs';
+
+const path = require('node:path');
+const ROOT_DIR = __dirname;
+const bodyParser = require('body-parser');
 
 AdminJS.registerAdapter({
   Resource: AdminJSSequelize.Resource,
   Database: AdminJSSequelize.Database,
+});
+
+AdminJS.registerAdapter({
+  Resource: AdminJSMongoose.Resource,
+  Database: AdminJSMongoose.Database
 });
 
 const PORT = process.env.NODE_DOCKER_PORT;
@@ -48,7 +63,8 @@ const start = async () => {
       }),
       generateResource(Country),
       generateResource(Donor),
-      generateResource(Donation)
+      generateResource(Donation),
+      generateResource(Chat)
     ],
     branding: {
       companyName: "My Project Donations"
@@ -102,8 +118,17 @@ const start = async () => {
     }
   );
 
+  hbs.registerPartials(path.join(ROOT_DIR, 'views'));
+  app.set('view engine', '.hbs');
+  app.use(express.static('public'));
   app.use(admin.options.rootPath, adminRouter);
+  app.use(express.json());
+  app.use(bodyParser.urlencoded({ extended: true }));
   app.use('/dashboard', dashboard);
+  app.use('/auth', auth);
+  app.use('/', chat);
+  app.use('/donors', donor);
+  app.use('/users', users);
 
   app.listen(PORT, () => {
     console.log(`AdminJS started on http://localhost:${PORT}${admin.options.rootPath}`)
