@@ -2,7 +2,7 @@ import AdminJS from 'adminjs'
 import AdminJSExpress from '@adminjs/express'
 import * as AdminJSSequelize from '@adminjs/sequelize'
 import * as AdminJSMongoose from '@adminjs/mongoose'
-import { User, Country, Donor, Donation, Chat} from './models';
+import { User, Country, Donation, Chat} from './models';
 import express from 'express';
 import session from 'express-session';
 import { generateResource } from './utils/modeling-model';
@@ -11,10 +11,13 @@ import bcrypt from "bcrypt";
 import { sequelize } from './db';
 import dashboard from './routes/dashboard';
 import chat from './routes/chat';
-import donor from './routes/donor';
 import auth from './routes/auth';
 import users from './routes/users';
 import hbs from 'hbs';
+import { SocketDataChat } from './interfaces/SocketInterface';
+import http from 'http';
+import { Server } from "socket.io";
+import ChatController from './controllers/ChatController';
 
 const path = require('node:path');
 const ROOT_DIR = __dirname;
@@ -36,6 +39,9 @@ const mysqlStore = require('express-mysql-session')(session);
 
 const start = async () => {
   const app = express();
+  const server = http.createServer(app);
+  const io: any = new Server<SocketDataChat>(server);
+
   sequelize.sync().catch((err) => {
     console.log(err);
   });
@@ -62,7 +68,6 @@ const start = async () => {
         },
       }),
       generateResource(Country),
-      generateResource(Donor),
       generateResource(Donation),
       generateResource(Chat)
     ],
@@ -91,7 +96,7 @@ const start = async () => {
     admin,
     {
       authenticate: async (email: string, password: string) => {
-        const user = await User.findOne({ where: { email } });
+        const user = await User.findOne({ where: { email, admin: true } });
         if (user) {
           const verifica = await bcrypt.compare(password, user.getDataValue('password'));
           if(verifica){
@@ -127,10 +132,24 @@ const start = async () => {
   app.use('/dashboard', dashboard);
   app.use('/auth', auth);
   app.use('/', chat);
-  app.use('/donors', donor);
   app.use('/users', users);
 
-  app.listen(PORT, () => {
+  const chatCtrl = new ChatController();
+  io.on('connection', (socket: any) => {
+    console.log("Usuário se conectou.");
+
+    socket.on('SEND_MESSAGE', (data: any) => {
+      const { message, user_sender, user_receptor } = data;
+      chatCtrl.sendMessage(message, user_sender, user_receptor)
+      io.emit('RECEIVE_MESSAGE', data)
+    });
+
+    socket.on("disconnect", (reason: any) => {
+      console.log("Desconectou");
+    });
+  })
+
+  server.listen(PORT, () => {
     console.log(`AdminJS started on http://localhost:${PORT}${admin.options.rootPath}`)
   })
 }

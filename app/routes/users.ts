@@ -5,7 +5,8 @@ const users = express.Router();
 const userCtrl = new UserController();
 
 users.get('/', async (req, res) => {
-    const result = await userCtrl.getUsers();
+    const returnAdmin = req.query.type == 'admins';
+    const result = await userCtrl.getUsers(returnAdmin);
     res.statusCode = result.status;
     res.json(result);
 });

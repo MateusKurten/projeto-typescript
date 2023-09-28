@@ -17,45 +17,44 @@ const chat2 = `
 `;
 
 const user = JSON.parse(window.localStorage.getItem("user"));
-const type = user ? user.type : 'donor';
-document.getElementById('chat_menu_title').innerHTML = type == 'user' ? 'Donors' : 'Administrators';
+document.getElementById('chat_menu_title').innerHTML = user.admin ? 'Donors' : 'Administrators';
 
 
-// const messages = document.getElementById('messages');
-// const chat_window = document.getElementById('chat_window');
-// const user_friend_name = document.getElementById('user_friend_name');
-// let friend = {};
+const messages = document.getElementById('messages');
+const chat_window = document.getElementById('chat_window');
+const user_friend_name = document.getElementById('user_friend_name');
+let friend = {};
 
-// const loadChat = async (user_id, friend_id, friend_name) => {
-//     friend = {
-//         id: friend_id,
-//         name: friend_name
-//     }
+const loadChat = async (user_id, friend_id, friend_name) => {
+    friend = {
+        id: friend_id,
+        name: friend_name
+    }
 
-//     user_friend_name.innerHTML = friend_name;
+    user_friend_name.innerHTML = friend_name;
 
-//     const response = await fetch(`${window.location.origin}/chat?user_id=${user_id}&friend_id=${friend_id}`, {
-//         method: 'GET',
-//         headers: {
-//             'Accept': 'application/json',
-//             'Content-Type': 'application/json'
-//         }
-//     })
-//     const json = await response.json();
+    const response = await fetch(`${window.location.origin}/load?user_id=${user_id}&friend_id=${friend_id}`, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    })
+    const json = await response.json();
 
-//     let lis = ''
-//     json.rows.forEach(async (chat) => {
-//         if(chat.user_sender === user.id){
-//             lis += chat1.replace('texto_aqui', chat.message);
-//         }else{
-//             lis += chat2.replace('texto_aqui', chat.message);
-//         }
-//     })
+    let lis = ''
+    json.rows.forEach(async (chat) => {
+        if(chat.user_sender === user.id){
+            lis += chat1.replace('texto_aqui', chat.message);
+        }else{
+            lis += chat2.replace('texto_aqui', chat.message);
+        }
+    })
 
-//     messages.innerHTML = lis;
-//     document.getElementsByClassName('messages')[0].scrollTop = document.getElementsByClassName('messages')[0].scrollHeight;
-//     chat_window.style.display = 'block';
-// }
+    messages.innerHTML = lis;
+    document.getElementsByClassName('messages')[0].scrollTop = document.getElementsByClassName('messages')[0].scrollHeight;
+    chat_window.style.display = 'block';
+}
 
 closeChat = () => {
     chat_window.style.display = 'none';
@@ -67,10 +66,9 @@ const logout = () => {
     window.location.href = `${window.location.origin}/auth/login`
 }
 
-const getFriends = async (type) => {
-    const route = type == 'donor' ? 'users' : 'donors';
-
-    const response = await fetch(`${window.location.origin}/${route}`, {
+const getChatList = async (isAdmin) => {
+    const type = isAdmin ? 'donors' : 'admins';
+    const response = await fetch(`${window.location.origin}/users?type=${type}`, {
         method: 'GET',
         headers: {
             'Accept': 'application/json',
@@ -83,63 +81,62 @@ const getFriends = async (type) => {
     let lis = ''
 
     for(const item of json.result){
-        // lis += `<li onclick="loadChat(${user.id}, ${friend.id}, '${friend.name}')" class="list-group-item">${friend.name}</li>`
-        lis += `<li class="list-group-item">${item.name}</li>`
+        lis += `<li onclick="loadChat(${user.id}, ${item.id}, '${item.name}')" class="list-group-item">${item.name}</li>`
     }
 
-    document.getElementById('friends').innerHTML = lis;
+    document.getElementById('chat_list').innerHTML = lis;
 }
 
-// const updateMessage = (type, message) => {
-//     let li = ''
-//     if(type === 1){
-//         li = chat1.replace('texto_aqui', message);
-//     }else{
-//         li = chat2.replace('texto_aqui', message);
-//     }
-//     const lis = document.getElementsByClassName('message-text');
+const updateMessage = (type, message) => {
+    let li = ''
+    if(type === 1){
+        li = chat1.replace('texto_aqui', message);
+    }else{
+        li = chat2.replace('texto_aqui', message);
+    }
+    const lis = document.getElementsByClassName('message-text');
 
-//     if(lis.length > 0){
-//         lis[lis.length - 1].insertAdjacentHTML('afterend', li);
-//     } else{
-//         messages.innerHTML = li;
-//     }
+    if(lis.length > 0){
+        lis[lis.length - 1].insertAdjacentHTML('afterend', li);
+    } else{
+        messages.innerHTML = li;
+    }
     
     
-//     document.getElementsByClassName('messages')[0].scrollTop = document.getElementsByClassName('messages')[0].scrollHeight;
-// }
+    document.getElementsByClassName('messages')[0].scrollTop = document.getElementsByClassName('messages')[0].scrollHeight;
+}
 
-// document.getElementById('form-chat').addEventListener('submit', function(event) {
-//     event.preventDefault();
+document.getElementById('form-chat').addEventListener('submit', function(event) {
+    event.preventDefault();
 
-//     const message_input = document.getElementById('message_input');
-//     const message = message_input.value;
+    const message_input = document.getElementById('message_input');
+    const message = message_input.value;
 
-//     sendMessageSocket(message);
-//     updateMessage(1, message);
+    sendMessageSocket(message);
+    updateMessage(1, message);
 
-//     message_input.value = '';
-// });
+    message_input.value = '';
+});
 
-// const sendMessageSocket = (message) => {
-//     const socket = io();
+const sendMessageSocket = (message) => {
+    const socket = io();
 
-//     socket.emit('SEND_MESSAGE', {
-//         user_sender: user.id,
-//         user_receptor: friend.id,
-//         message: message
-//     });
-// }
+    socket.emit('SEND_MESSAGE', {
+        user_sender: user.id,
+        user_receptor: friend.id,
+        message: message
+    });
+}
 
-// const ouvirMessage = () => {
-//     const socket = io();
+const ouvirMessage = () => {
+    const socket = io();
 
-//     socket.on('RECEIVE_MESSAGE', function(data){
-//         if(data.user_sender === friend.id){
-//             updateMessage(2, data.message);
-//         }
-//     });
-// }
+    socket.on('RECEIVE_MESSAGE', function(data){
+        if(data.user_sender === friend.id){
+            updateMessage(2, data.message);
+        }
+    });
+}
 
-// ouvirMessage();
-getFriends(type);
+ouvirMessage();
+getChatList(user.admin);

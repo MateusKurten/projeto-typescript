@@ -1,12 +1,14 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import { sequelize } from "../db";
+import { Country } from "./country.entity";
 
 interface IUser{
   id: number;
   name: string;
   email: string;
-  username: string;
   password: string;
+  country?: string;
+  admin: boolean;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -17,8 +19,9 @@ export class User extends Model<IUser, UserCreationAttributes> {
   declare id: number | null;
   declare name: string | null;
   declare email: string | null;
-  declare username: string | null;
   declare password: string | null;
+  declare country: string | null;
+  declare admin: boolean | null;
   declare createdAt: Date | null;
   declare updatedAt: Date | null;
 }
@@ -39,13 +42,19 @@ User.init(
       allowNull: false,
       unique: true
     },
-    username: {
-      type: new DataTypes.STRING(30),
-      allowNull: false,
-      unique: true
-    },
     password: {
       type: new DataTypes.STRING(256),
+      allowNull: false
+    },
+    country: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'countries',
+        key: 'id'
+      }
+    },
+    admin: {
+      type: new DataTypes.BOOLEAN,
       allowNull: false
     },
     createdAt: {
@@ -65,3 +74,5 @@ User.init(
     modelName: 'user',
   }
 )
+
+User.belongsTo(Country, { foreignKey: 'country', as: 'modelCountry' });

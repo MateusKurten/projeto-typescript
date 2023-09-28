@@ -1,8 +1,11 @@
 import { User } from "../models/user.entity";
 
 export default class UserController {
-  async getUsers() {
+  async getUsers(admin: boolean) {
     const users = await User.findAll({
+      where: {
+        admin: admin
+      },
       attributes: ['id', 'name'],
       raw: true,
     });

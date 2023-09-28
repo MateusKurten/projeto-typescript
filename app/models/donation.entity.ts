@@ -1,6 +1,6 @@
 import { DataTypes, Model, Optional } from 'sequelize';
 import { sequelize } from '../db';
-import { Donor } from "../models/donor.entity";
+import { User } from "../models/user.entity";
 
 interface IDonation{
   id: number;
@@ -20,7 +20,7 @@ export class Donation extends Model<IDonation, DonationCreationAttributes> imple
   declare date: Date;
   declare createdAt?: Date;
   declare updatedAt?: Date;
-  modelDonor: any;
+  modelUser: any;
 }
 
 Donation.init(
@@ -34,7 +34,7 @@ Donation.init(
       type: DataTypes.INTEGER,
       allowNull: true,
       references: {
-        model: 'donors',
+        model: 'users',
         key: 'id'
       }
     },
@@ -63,4 +63,4 @@ Donation.init(
   }
 )
 
-Donation.belongsTo(Donor, { foreignKey: 'donor', as: 'modelDonor' })
+Donation.belongsTo(User, { foreignKey: 'donor', as: 'modelUser' })

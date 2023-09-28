@@ -1,5 +1,5 @@
 import * as express from "express";
-import { User, Donor } from "../models";
+import { User } from "../models";
 import bcrypt from "bcrypt";
 
 const auth = express.Router();
@@ -14,30 +14,13 @@ auth.post('/login', async (req, res) => {
     if (user) {
         const verifica = await bcrypt.compare(password, user.getDataValue('password'));
         if(verifica){
-            const { email, username, id } = user;
-
-            return res.status(200).send({
-                email,
-                username,
-                id,
-                type: 'user'
-            });
-        }
-
-        return res.status(500).send("Usuário e/ou senha não existem!");
-    }
-
-    const donor = await Donor.findOne({ where: { email } });
-    if (donor) {
-        const verifica = await bcrypt.compare(password, donor.getDataValue('password'));
-        if(verifica){
-            const { email, name, id } = donor;
+            const { email, name, id, admin } = user;
 
             return res.status(200).send({
                 email,
                 name,
                 id,
-                type: 'donor'
+                admin,
             });
         }
 
