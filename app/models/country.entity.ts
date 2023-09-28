@@ -44,4 +44,4 @@ Country.init(
     tableName: 'countries',
     modelName: 'country',
   }
-)
+);

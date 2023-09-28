@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <nav class="navbar fixed-top navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/">Home</a>
+                </li>
+            </ul>
+            
+                <ul class="nav justify-content-end">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-bell"></i>
+
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            <form class="d-flex" role="search">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+                <ul class="nav justify-content-end">
+                    <li class="nav-item">
+                        <button class="nav-link" onclick="logout()">Sair</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        </nav>
+    <div class="container">
+        <div class="row">
+            <div class="col col-md-8">
+                <div id="chat_window" class="chat_window" style="display: none;">
+                    <div class="top_menu">
+                        <div class="buttons">
+                            <div class="button close" onclick="closeChat()"></div>
+                        </div>
+                        <div class="title">Chat com <span id="user_friend_name">INSIRA AQUI</span></div>
+                    </div>
+                    <ul class="messages" id="messages">
+                        <li class="message right appeared message-text">
+                            <div class="avatar"></div>
+                            <div class="text_wrapper">
+                                <div class="text">texto_aqui</div>
+                            </div>
+                        </li>
+                        <li class="message right appeared message-text">
+                            <div class="avatar"></div>
+                            <div class="text_wrapper">
+                                <div class="text">texto_aqui</div>
+                            </div>
+                        </li>
+                    </ul>
+                    <form id="form-chat">
+                        <div class="bottom_wrapper clearfix">
+                            <div class="message_input_wrapper">
+                                <input id="message_input" class="message_input" placeholder="Digite sua mensagem..." />
+                            </div>
+                            <button type="submit" class="send_message">
+                                <div class="icon"></div>
+                                <div class="text">Enviar</div>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="message_template">
+                    <li class="message">
+                        <div class="avatar"></div>
+                        <div class="text_wrapper">
+                            <div class="text"></div>
+                        </div>
+                    </li>
+                </div>
+            </div>
+            <div class="col col-md-4">
+                <div class="panel panel-default friend-body">
+                    <div class="panel-heading">
+                        <h3 class="panel-title" id="chat_menu_title"></h3>
+                    </div>
+                    <ul class="list-group" id="chat_list">
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./js/socket.io.min.js"></script>
+    <script src="./js/general.js"></script>
+    <script src="./js/chat.js"></script>
+</body>
+
+</html>

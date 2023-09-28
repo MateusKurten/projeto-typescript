@@ -1,6 +1,19 @@
 version: '3.8'
 
 services:
+  mongo:
+    image: mongo:6.0
+    container_name: 'mongodb'
+    restart: unless-stopped
+    env_file: ./.env
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=$MONGODB_ROOT_USERNAME
+      - MONGO_INITDB_ROOT_PASSWORD=$MONGODB_ROOT_PASSWORD
+      - MONGO_INITDB_DATABASE=$MONGODB_DATABASE
+    ports:
+      - $MONGODB_LOCAL_PORT:$MONGODB_DOCKER_PORT
+    volumes:
+      - ./docker/mongodb/volume:/data/db
   mysqldb:
     image: mysql:8.1.0
     container_name: 'mysqldb'
@@ -28,6 +41,11 @@ services:
       - DB_PASSWORD=$MYSQLDB_ROOT_PASSWORD
       - DB_NAME=$MYSQLDB_DATABASE
       - DB_PORT=$MYSQLDB_DOCKER_PORT
+      - MONGODB_HOST=mongo
+      - MONGODB_USER=$MONGODB_ROOT_USERNAME
+      - MONGODB_PASSWORD=$MONGODB_ROOT_PASSWORD
+      - MONGODB_DATABASE=$MONGODB_DATABASE
+      - MONGODB_PORT=$MONGODB_DOCKER_PORT
     volumes:
       - ./app:/var/www
     stdin_open: true

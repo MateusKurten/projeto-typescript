@@ -1,13 +1,13 @@
 import { Donation } from "../models/donation.entity";
 import { Country } from "../models/country.entity";
-import { Donor } from "../models/donor.entity";
+import { User } from "../models/user.entity";
 
 export default class DonationController {
   async getDataByCountry() {
     const donations = await Donation.findAll({
       include: [{
-        model: Donor,
-        as: 'modelDonor',
+        model: User,
+        as: 'modelUser',
         include: [{
           model: Country,
           as: 'modelCountry',
@@ -18,7 +18,7 @@ export default class DonationController {
 
     var dataByCountry: {[index: string]:any} = {};
     donations.forEach(donation => {
-      const country = donation.modelDonor.modelCountry.name;
+      const country = donation.modelUser.modelCountry.name;
       const value = donation.value;
 
       if (!dataByCountry[country]) {
