@@ -13,6 +13,7 @@ import dashboard from './routes/dashboard';
 import chat from './routes/chat';
 import auth from './routes/auth';
 import users from './routes/users';
+import countries from './routes/countries';
 import hbs from 'hbs';
 import { SocketDataChat } from './interfaces/SocketInterface';
 import http from 'http';
@@ -133,6 +134,7 @@ const start = async () => {
   app.use('/auth', auth);
   app.use('/', chat);
   app.use('/users', users);
+  app.use('/countries', countries);
 
   const chatCtrl = new ChatController();
   io.on('connection', (socket: any) => {

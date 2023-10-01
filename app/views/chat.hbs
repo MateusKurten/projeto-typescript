@@ -25,15 +25,11 @@
                             <i class="bi bi-bell"></i>
 
                         </a>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu dropdown-menu-end">
                             <li><a class="dropdown-item" href="#">Action</a></li>
                         </ul>
                     </li>
                 </ul>
-            <form class="d-flex" role="search">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
                 <ul class="nav justify-content-end">
                     <li class="nav-item">
                         <button class="nav-link" onclick="logout()">Sair</button>
@@ -41,7 +37,7 @@
                 </ul>
             </div>
         </div>
-        </nav>
+    </nav>
     <div class="container">
         <div class="row">
             <div class="col col-md-8">
@@ -50,7 +46,7 @@
                         <div class="buttons">
                             <div class="button close" onclick="closeChat()"></div>
                         </div>
-                        <div class="title">Chat com <span id="user_friend_name">INSIRA AQUI</span></div>
+                        <div class="title">Chat com <span id="user_friend_name"></span></div>
                     </div>
                     <ul class="messages" id="messages">
                         <li class="message right appeared message-text">
