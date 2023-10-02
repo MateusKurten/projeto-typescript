@@ -29,8 +29,7 @@ module.exports = {
         }
       },
       admin: {
-        type: new Sequelize.BOOLEAN,
-        allowNull: false
+        type: new Sequelize.BOOLEAN
       },
       createdAt: {
         type: new Sequelize.DATE,

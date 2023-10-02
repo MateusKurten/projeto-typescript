@@ -8,7 +8,7 @@ interface IUser{
   email: string;
   password: string;
   country?: string;
-  admin: boolean;
+  admin?: boolean;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -54,8 +54,7 @@ User.init(
       }
     },
     admin: {
-      type: new DataTypes.BOOLEAN,
-      allowNull: false
+      type: new DataTypes.BOOLEAN
     },
     createdAt: {
       type: new DataTypes.DATE,
