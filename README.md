@@ -15,9 +15,9 @@ AdminJS project for managing donations.
 
 - **Node.js (Express):** Node.js is the runtime environment used for server-side development, and Express.js is a popular web application framework for Node.js.
 
-- **MongoDB (Mongoose ORM):** MongoDB is a NoSQL database that is used for storing and retrieving data. Mongoose is an ODM (Object-Document Mapping) library for MongoDB, simplifying database interactions and providing schema validation.
+- **MongoDB (Mongoose):** MongoDB is a NoSQL database that is used for storing and retrieving data. Mongoose is an ODM (Object-Document Mapping) library for MongoDB, simplifying database interactions and providing schema validation.
 
-- **MySQL (Sequelize ORM):** MySQL is a relational database used for structured data storage. Sequelize is an ORM (Object-Relational Mapping) library for MySQL, making it easier to work with relational databases by mapping database records to JavaScript objects.
+- **MySQL (Sequelize):** MySQL is a relational database used for structured data storage. Sequelize is an ORM (Object-Relational Mapping) library for MySQL, making it easier to work with relational databases by mapping database records to JavaScript objects.
 
 - **AdminJS Framework:** AdminJS is a framework for building administrative interfaces. It provides a user-friendly admin panel to manage and monitor your application's data, making it easier to perform CRUD operations and manage resources.
 
