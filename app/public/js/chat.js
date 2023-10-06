@@ -25,13 +25,13 @@ const chat_window = document.getElementById('chat_window');
 const other_user_name = document.getElementById('other_user_name');
 let other_user = {};
 
-const loadChat = async (user_id, other_user_id, other_user_name) => {
+const loadChat = async (user_id, other_user_id, other_name) => {
     other_user = {
         id: other_user_id,
-        name: other_user_name
+        name: other_name
     }
 
-    other_user_name.innerHTML = other_user_name;
+    other_user_name.innerHTML = other_name;
 
     const response = await fetch(`${window.location.origin}/load?user_id=${user_id}&other_user_id=${other_user_id}`, {
         method: 'GET',
