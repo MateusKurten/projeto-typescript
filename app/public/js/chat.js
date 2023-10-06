@@ -22,18 +22,18 @@ document.getElementById('chat_menu_title').innerHTML = user.admin ? 'Donors' : '
 
 const messages = document.getElementById('messages');
 const chat_window = document.getElementById('chat_window');
-const user_friend_name = document.getElementById('user_friend_name');
-let friend = {};
+const other_user_name = document.getElementById('other_user_name');
+let other_user = {};
 
-const loadChat = async (user_id, friend_id, friend_name) => {
-    friend = {
-        id: friend_id,
-        name: friend_name
+const loadChat = async (user_id, other_user_id, other_user_name) => {
+    other_user = {
+        id: other_user_id,
+        name: other_user_name
     }
 
-    user_friend_name.innerHTML = friend_name;
+    other_user_name.innerHTML = other_user_name;
 
-    const response = await fetch(`${window.location.origin}/load?user_id=${user_id}&friend_id=${friend_id}`, {
+    const response = await fetch(`${window.location.origin}/load?user_id=${user_id}&other_user_id=${other_user_id}`, {
         method: 'GET',
         headers: {
             'Accept': 'application/json',
@@ -122,7 +122,7 @@ const sendMessageSocket = (message) => {
 
     socket.emit('SEND_MESSAGE', {
         user_sender: user.id,
-        user_receptor: friend.id,
+        user_receptor: other_user.id,
         message: message
     });
 }
@@ -131,7 +131,7 @@ const ouvirMessage = () => {
     const socket = io();
 
     socket.on('RECEIVE_MESSAGE', function(data){
-        if(data.user_sender === friend.id){
+        if(data.user_sender === other_user.id){
             updateMessage(2, data.message);
         }
     });

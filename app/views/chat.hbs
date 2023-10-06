@@ -18,24 +18,11 @@
                     <a class="nav-link active" aria-current="page" href="/">Home</a>
                 </li>
             </ul>
-            
-                <ul class="nav justify-content-end">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-bell"></i>
-
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                        </ul>
-                    </li>
-                </ul>
-                <ul class="nav justify-content-end">
-                    <li class="nav-item">
-                        <button class="nav-link" onclick="logout()">Sair</button>
-                    </li>
-                </ul>
-            </div>
+            <ul class="nav justify-content-end">
+                <li class="nav-item">
+                    <button class="nav-link" onclick="logout()">Sair</button>
+                </li>
+            </ul>
         </div>
     </nav>
     <div class="container">
@@ -46,7 +33,7 @@
                         <div class="buttons">
                             <div class="button close" onclick="closeChat()"></div>
                         </div>
-                        <div class="title">Chat com <span id="user_friend_name"></span></div>
+                        <div class="title">Chat com <span id="other_user_name"></span></div>
                     </div>
                     <ul class="messages" id="messages">
                         <li class="message right appeared message-text">
@@ -84,7 +71,7 @@
                 </div>
             </div>
             <div class="col col-md-4">
-                <div class="panel panel-default friend-body">
+                <div class="panel panel-default chat-list-body">
                     <div class="panel-heading">
                         <h3 class="panel-title" id="chat_menu_title"></h3>
                     </div>

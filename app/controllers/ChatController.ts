@@ -16,12 +16,12 @@ export default class ChatController{
         await this.insertMessage(message, user_sender, user_receptor);
     }
     
-    async loadMessage(page:number=10, _limit:number=10, user_id:number, user_friend:number){
+    async loadMessage(page:number=10, _limit:number=10, user_id:number, other_user:number){
         const { offset, limit } = this.generatePagination(page, _limit);
         const chat = await Chat.find({
                 $or: [
-                    { $and: [{user_sender: user_id}, {user_receptor: user_friend}] },
-                    { $and: [{user_sender: user_friend}, {user_receptor: user_id}] }
+                    { $and: [{user_sender: user_id}, {user_receptor: other_user}] },
+                    { $and: [{user_sender: other_user}, {user_receptor: user_id}] }
                 ]
             }).skip(offset).limit(limit).sort({ created_at: 1 });
         const count = await Chat.countDocuments();
